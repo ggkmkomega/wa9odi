@@ -1,21 +1,39 @@
 import Colors from "@/constants/Colors";
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Product } from "@/types";
+import { Link } from "expo-router";
+import { Image, StyleSheet, Text, Pressable } from "react-native"
 
-export const ProductListItem = ({ product }) => {
+export const defaultProductImage = 'https://source.unsplash.com/lP1RhcNrENM';
+
+type ProductListItemProps = {
+    product: Product,
+}
+
+export const ProductListItem = ({ product }: ProductListItemProps) => {
     return (
-        <View style={styles.container}>
-            <Image style={styles.image} source={{ uri: product.image }} />
-            <Text style={styles.title}>{product.name}</Text>
-            <Text style={styles.price}>DZD {product.price}</Text>
-        </View>
-    )
+        < Link href = {`/shop/${product.id}`}  asChild>
+        <Pressable  style= { styles.container } >
+        <Image
+
+        style={ styles.image }
+    source = {{ uri: product.image || defaultProductImage }
+}
+/>
+    < Text style = { styles.title } > { product.name } < /Text>
+        < Text style = { styles.price } > DZD { product.price } </Text>
+            
+                < /Pressable>
+                < /Link>
+                );
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: Colors.light.background,
         padding: 10,
         borderRadius: 20,
+        maxWidth: '50%'
     },
     title: {
         fontSize: 18,
