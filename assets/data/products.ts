@@ -1,73 +1,63 @@
 const products = [
   {
     id: 1,
-    name: 'Ultimate Pepperoni',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/peperoni.png',
-    price: 12.99,
+    name: 'Premium Unleaded Gasoline',
+    image: 'https://source.unsplash.com/random/800x600/?gasoline',
+    price: 2.59,
   },
   {
     id: 2,
-    name: 'ExtravaganZZa',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/extravaganzza.png',
-    price: 14.99,
+    name: 'Plus Unleaded Gasoline',
+    image: 'https://source.unsplash.com/random/800x600/?gasoline,plus',
+    price: 2.39,
   },
   {
     id: 3,
-    name: 'MeatZZa',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/peperoni.png',
-    price: 13.47,
+    name: 'Eco Friendly Diesel Fuel',
+    image: 'https://source.unsplash.com/random/800x600/?diesel,ecofriendly',
+    price: 2.79,
   },
   {
     id: 4,
-    name: 'Margarita',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/margarita.png',
-    price: 9.9,
+    name: 'High Performance Racing Fuel',
+    image: 'https://source.unsplash.com/random/800x600/?racingfuel',
+    price: 15.99,
   },
   {
     id: 5,
-    name: 'Pacific Veggie',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/veggie.png',
-    price: 12.99,
+    name: 'Conventional Motor Oil',
+    image: 'https://source.unsplash.com/random/800x600/?motoroil,conventional',
+    price: 6.99,
   },
   {
     id: 6,
-    name: 'Hawaiian',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/hawaiin.png',
-    price: 10.49,
+    name: 'Synthetic Motor Oil',
+    image: 'https://source.unsplash.com/random/800x600/?motoroil,synthetic',
+    price: 9.99,
   },
   {
     id: 7,
-    name: 'Deluxe',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/deluxe.png',
-    price: 16.99,
+    name: 'High Mileage Motor Oil',
+    image: 'https://source.unsplash.com/random/800x600/?motoroil,highmileage',
+    price: 8.49,
   },
   {
     id: 8,
-    name: 'BBQ Chicken',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/veggie.png',
-    price: 12.89,
+    name: 'Bio-Based Motor Oil',
+    image: 'https://source.unsplash.com/random/800x600/?motoroil,biobased',
+    price: 10.99,
   },
   {
     id: 9,
-    name: 'Chicken Bacon Ranch',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/extravaganzza.png',
-    price: 13.99,
+    name: 'Racing Transmission Fluid',
+    image: 'https://source.unsplash.com/random/800x600/?transmissionfluid,racing',
+    price: 14.99,
   },
   {
     id: 10,
-    name: '6 Cheese',
-    image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/6cheese.png',
-    price: 13.29,
+    name: 'Synthetic Automatic Transmission Fluid',
+    image: 'https://source.unsplash.com/random/800x600/?transmissionfluid,synthetic',
+    price: 12.49,
   },
 ];
 
