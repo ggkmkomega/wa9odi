@@ -4,7 +4,7 @@ import DatePicker from "@/components/DatePicker";
 import Colors from "@/constants/Colors";
 import { useCart } from "@/providers/CartProvider";
 import products from "@assets/data/products";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   View,
@@ -20,18 +20,18 @@ const productDetailSceen = () => {
   const [date, setDate] = useState<DateType>();
   const { id } = useLocalSearchParams();
   const { addItem } = useCart();
+  const router = useRouter();
   const product = products.find((p) => p.id.toString() === id);
 
   const addToCart = () => {
     if (!product) return;
     const today = dayjs();
     if (!date || !!today.isAfter(date)) {
-      //ToastAndroid.show("Invalid Date", 1000);
-      console.warn("Error: Invalide date", today);
+      ToastAndroid.show("Invalid Date", 1000);
       return;
     }
-    // addItem(product);
-    console.warn("added, date: ", date);
+    addItem(product, date);
+    router.push("/cart");
   };
   if (!product) {
     return <Text>Product not found </Text>;
