@@ -1,3 +1,5 @@
+import { type DateType } from "react-native-ui-datepicker";
+
 export type Product = {
   id: number;
   image: string | null;
@@ -11,8 +13,8 @@ export type CartItem = {
   id: string;
   product: Product;
   product_id: number;
-  size: PizzaSize;
   quantity: number;
+  date: DateType;
 };
 
 export const OrderStatusList: OrderStatus[] = [
