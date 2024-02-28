@@ -62,7 +62,6 @@ export default function DatePicker({ date, setDate }: Props) {
                 fontWeight: "bold",
                 color: theme?.activeTextColor,
               }}
-              // eslint-disable-next-line react-native/no-inline-styles
               todayContainerStyle={{
                 borderWidth: 1,
               }}

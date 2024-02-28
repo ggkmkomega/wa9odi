@@ -4,7 +4,7 @@ import DatePicker from "@/components/DatePicker";
 import Colors from "@/constants/Colors";
 import { useCart } from "@/providers/CartProvider";
 import products from "@assets/data/products";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   View,
@@ -13,8 +13,10 @@ import {
   StyleSheet,
   ScrollView,
   ToastAndroid,
+  Pressable,
 } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
+import { FontAwesome } from "@expo/vector-icons";
 
 const productDetailSceen = () => {
   const [date, setDate] = useState<DateType>();
@@ -38,6 +40,25 @@ const productDetailSceen = () => {
   }
   return (
     <ScrollView style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: "shop",
+          headerRight: () => (
+            <Link href={`/(admin)/shop/create?id=${id}`} asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <Stack.Screen options={{ title: product.name }} />
       <Image
         resizeMode="contain"
