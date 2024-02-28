@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Product } from "@/types";
-import { Link } from "expo-router";
+import { Link, useSegments } from "expo-router";
 import Colors from "@/constants/Colors";
 import LitreSelection from "./LitreSelection";
 
@@ -18,8 +18,9 @@ type ListItemsProps = {
   product: Product;
 };
 const ListItems = ({ product }: ListItemsProps) => {
+  const segments = useSegments();
   return (
-    <Link href={`/shop/${product.id}`} asChild>
+    <Link href={`/${segments[0]}/shop/${product.id}`} asChild>
       <Pressable style={styles.container}>
         <Image
           style={styles.image}
