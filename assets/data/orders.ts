@@ -9,7 +9,7 @@ const orders: Order[] = [
     id: 23123,
     created_at: now.subtract(1, "hour").toISOString(),
     total: 31.4,
-    status: "Cooking",
+    status: "Preparing",
     user_id: "1",
     order_items: [
       {

@@ -6,7 +6,7 @@ import { Pressable } from "react-native";
 export default function shopStack() {
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ title: "Orders" }} />
+      <Stack.Screen name="list" options={{ headerShown: false }} />
     </Stack>
   );
 }
