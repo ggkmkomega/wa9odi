@@ -1,15 +1,43 @@
 import { StyleSheet, Text, View, TextInput, Image, Alert } from "react-native";
-import React, { Component, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import * as ImagePicker from "expo-image-picker";
 import Colors from "@/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
+import {
+  useDeleteProduct,
+  useInsertProduct,
+  useProduct,
+  useUpdateProduct,
+} from "@/api/products";
+import { useRouter } from "expo-router";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [errors, setErrors] = useState("");
+
+  const router = useRouter();
+
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(
+    typeof idString === "string" ? idString : idString?.[0]
+  );
+  const isUpdating = !!id;
+
+  const { mutate: insertProduct } = useInsertProduct();
+  const { mutate: updateProduct } = useUpdateProduct();
+  const { mutate: deleteProduct } = useDeleteProduct();
+  const { data: UpdatingProduct } = useProduct(id);
+
+  useEffect(() => {
+    if (UpdatingProduct) {
+      setName(UpdatingProduct?.name);
+      setPrice(UpdatingProduct?.price.toString());
+      setImage(UpdatingProduct?.image);
+    }
+  }, [UpdatingProduct]);
   const resetFields = () => {
     setName("");
     setPrice("");
@@ -31,13 +59,18 @@ const CreateProductScreen = () => {
     return true;
   };
   const onDelete = () => {
-    console.warn("DELETED");
+    deleteProduct(id, {
+      onSuccess: () => {
+        resetFields();
+        router.replace("/(admin)");
+      },
+    });
   };
+
   const confirmDelete = () => {
-    Alert.alert("Confirm ", "are you sure you want to delete the product ?", [
+    Alert.alert("Confirm", "Are you sure you want to delete this product", [
       {
         text: "Cancel",
-        style: "cancel",
       },
       {
         text: "Delete",
@@ -46,22 +79,39 @@ const CreateProductScreen = () => {
       },
     ]);
   };
-
   const onCreate = () => {
     if (!ValidateInput()) {
       return;
     }
-    console.warn("create product");
     //save to DB
-    resetFields();
+    insertProduct(
+      { name, image, price: parseFloat(price) },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+        },
+      }
+    );
   };
   const onUpdate = () => {
     if (!ValidateInput()) {
       return;
     }
-    console.warn("Updating product");
-    //save to DB
-    resetFields();
+    updateProduct(
+      {
+        id,
+        name,
+        price: parseFloat(price),
+        image,
+      },
+      {
+        onSuccess: () => {
+          resetFields();
+          router.back();
+        },
+      }
+    );
   };
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -76,9 +126,6 @@ const CreateProductScreen = () => {
       setImage(result.assets[0].uri);
     }
   };
-
-  const { id } = useLocalSearchParams();
-  const isUpdating = !!id;
 
   const onSubmit = () => {
     if (isUpdating) {
@@ -124,9 +171,7 @@ const CreateProductScreen = () => {
         <Text onPress={confirmDelete} style={styles.textBtn}>
           Delete
         </Text>
-      ) : (
-        "Create"
-      )}
+      ) : null}
     </View>
   );
 };

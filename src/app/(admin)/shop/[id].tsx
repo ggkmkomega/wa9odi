@@ -1,40 +1,29 @@
-import Button from "@/components/Button";
-import dayjs from "dayjs";
-import DatePicker from "@/components/DatePicker";
 import Colors from "@/constants/Colors";
-import { useCart } from "@/providers/CartProvider";
-import products from "@assets/data/products";
 import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
 import {
-  View,
   Text,
   Image,
   StyleSheet,
   ScrollView,
-  ToastAndroid,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
-import { DateType } from "react-native-ui-datepicker";
 import { FontAwesome } from "@expo/vector-icons";
+import { useProduct } from "@/api/products";
+import { defaultProductImage } from "@/components/ListItems";
 
 const productDetailSceen = () => {
-  const [date, setDate] = useState<DateType>();
-  const { id } = useLocalSearchParams();
-  const { addItem } = useCart();
-  const router = useRouter();
-  const product = products.find((p) => p.id.toString() === id);
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
+  const { data: product, error, isLoading } = useProduct(id);
 
-  const addToCart = () => {
-    if (!product) return;
-    const today = dayjs();
-    if (!date || !!today.isAfter(date)) {
-      ToastAndroid.show("Invalid Date", 1000);
-      return;
-    }
-    addItem(product, date);
-    router.push("/cart");
-  };
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+  if (error || !product) {
+    return <Text>Failed to fetch product</Text>;
+  }
+
   if (!product) {
     return <Text>Product not found </Text>;
   }
@@ -62,7 +51,7 @@ const productDetailSceen = () => {
       <Stack.Screen options={{ title: product.name }} />
       <Image
         resizeMode="contain"
-        source={{ uri: product.image }}
+        source={{ uri: product.image || defaultProductImage }}
         style={styles.image}
       />
       <Text style={styles.title}>title : {product.name}</Text>

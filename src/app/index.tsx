@@ -1,37 +1,34 @@
-import { View } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import React from "react";
 import Button from "../components/Button";
 import { Link, Redirect } from "expo-router";
 import { UseAuth } from "@/providers/AuthProvider";
-import { supabase } from "@/lib/supabase";
-import { ActivityIndicator } from "react-native";
 
 const index = () => {
-  const { session, loading, isAdmin } = UseAuth();
+  const { loading, session, profile } = UseAuth();
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator />;
   }
 
   if (!session) {
-    return <Redirect href={"/(auth)/sign-in"} />;
+    return <Redirect href="/sign-in" />;
   }
 
-  if (!isAdmin) {
-    return <Redirect href={"/(user)"} />;
+  if (profile?.groupe === "ADMIN") {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", padding: 10 }}>
+        <Link href={"/(user)"} asChild>
+          <Button text="User" />
+        </Link>
+        <Link href={"/(admin)"} asChild>
+          <Button text="Admin" />
+        </Link>
+      </View>
+    );
   }
-  return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 10 }}>
-      <Link href={"/(user)"} asChild>
-        <Button text="User" />
-      </Link>
-      <Link href={"/(admin)"} asChild>
-        <Button text="Admin" />
-      </Link>
 
-      <Button onPress={() => supabase.auth.signOut()} text="Sign Out" />
-    </View>
-  );
+  return <Redirect href="/(user)" />;
 };
 
 export default index;
