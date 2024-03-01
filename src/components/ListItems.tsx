@@ -7,15 +7,14 @@ import {
   TextInput,
 } from "react-native";
 import React from "react";
-import { Product } from "@/types";
+import { Tables } from "@/types";
 import { Link, useSegments } from "expo-router";
 import Colors from "@/constants/Colors";
-import LitreSelection from "./LitreSelection";
 
 export const defaultProductImage = "https://source.unsplash.com/lP1RhcNrENM";
 
 type ListItemsProps = {
-  product: Product;
+  product: Tables<"products">;
 };
 const ListItems = ({ product }: ListItemsProps) => {
   const segments = useSegments();
