@@ -3,6 +3,7 @@ import React from "react";
 import Button from "../components/Button";
 import { Link, Redirect } from "expo-router";
 import { UseAuth } from "@/providers/AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 const index = () => {
   const { loading, session, profile } = UseAuth();
@@ -24,6 +25,12 @@ const index = () => {
         <Link href={"/(admin)"} asChild>
           <Button text="Admin" />
         </Link>
+        <Button
+          text="Sing Out"
+          onPress={() => {
+            supabase.auth.signOut();
+          }}
+        />
       </View>
     );
   }

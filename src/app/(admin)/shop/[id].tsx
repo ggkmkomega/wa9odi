@@ -11,6 +11,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import { useProduct } from "@/api/products";
 import { defaultProductImage } from "@/components/ListItems";
+import RemoteImage from "@/components/RemoteImage";
 
 const productDetailSceen = () => {
   const { id: idString } = useLocalSearchParams();
@@ -49,11 +50,12 @@ const productDetailSceen = () => {
         }}
       />
       <Stack.Screen options={{ title: product.name }} />
-      <Image
-        resizeMode="contain"
-        source={{ uri: product.image || defaultProductImage }}
+      <RemoteImage
         style={styles.image}
+        path={product.image}
+        fallback={defaultProductImage}
       />
+
       <Text style={styles.title}>title : {product.name}</Text>
 
       <Text style={styles.price}>Price : DZD {product.price.toFixed(2)}</Text>

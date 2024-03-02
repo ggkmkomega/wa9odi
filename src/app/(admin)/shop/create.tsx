@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import Colors from "@/constants/Colors";
 import { Stack, useLocalSearchParams } from "expo-router";
 import {
@@ -11,6 +12,9 @@ import {
   useUpdateProduct,
 } from "@/api/products";
 import { useRouter } from "expo-router";
+import { randomUUID } from "expo-crypto";
+import { supabase } from "@/lib/supabase";
+import { decode } from "base64-arraybuffer";
 
 const CreateProductScreen = () => {
   const [name, setName] = useState("");
@@ -79,13 +83,14 @@ const CreateProductScreen = () => {
       },
     ]);
   };
-  const onCreate = () => {
+  const onCreate = async () => {
     if (!ValidateInput()) {
       return;
     }
+    const imagePath = await uploadImage();
     //save to DB
     insertProduct(
-      { name, image, price: parseFloat(price) },
+      { name, image: imagePath, price: parseFloat(price) },
       {
         onSuccess: () => {
           resetFields();
@@ -118,12 +123,31 @@ const CreateProductScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+    }
+  };
+  const uploadImage = async () => {
+    if (!image?.startsWith("file://")) {
+      return;
+    }
+
+    const base64 = await FileSystem.readAsStringAsync(image, {
+      encoding: "base64",
+    });
+    const filePath = `${randomUUID()}.png`;
+    const contentType = "image/png";
+    const { data, error } = await supabase.storage
+      .from("product-images")
+      .upload(filePath, decode(base64), { contentType });
+    if (data) {
+      return data.path;
+    }
+    if (error) {
+      throw new Error(error.message);
     }
   };
 

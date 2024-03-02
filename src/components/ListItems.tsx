@@ -10,6 +10,7 @@ import React from "react";
 import { Tables } from "@/types";
 import { Link, useSegments } from "expo-router";
 import Colors from "@/constants/Colors";
+import RemoteImage from "./RemoteImage";
 
 export const defaultProductImage = "https://source.unsplash.com/lP1RhcNrENM";
 
@@ -21,9 +22,10 @@ const ListItems = ({ product }: ListItemsProps) => {
   return (
     <Link href={`/${segments[0]}/shop/${product.id}`} asChild>
       <Pressable style={styles.container}>
-        <Image
+        <RemoteImage
           style={styles.image}
-          source={{ uri: product.image || defaultProductImage }}
+          path={product.image}
+          fallback={defaultProductImage}
         />
         <Text style={styles.title}>{product.name}</Text>
         <Text style={styles.price}>DZD {product.price}</Text>
