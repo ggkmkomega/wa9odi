@@ -1,10 +1,10 @@
 import { ActivityIndicator, FlatList, Text } from "react-native";
 import { Stack } from "expo-router";
 import OrderListItem from "@/components/OrderListItem";
-import { usemyOrderList } from "@/api/orders";
+import { useMyOrderList } from "@/api/orders";
 
 export default function OrdersScreen() {
-  const { data: orders, error, isLoading } = usemyOrderList();
+  const { data: orders, error, isLoading } = useMyOrderList();
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }

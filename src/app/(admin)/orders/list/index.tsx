@@ -1,27 +1,28 @@
-import { ActivityIndicator, FlatList } from "react-native";
+import { Text, FlatList, ActivityIndicator } from "react-native";
 import OrderListItem from "@/components/OrderListItem";
 import { useAdminOrderList } from "@/api/orders";
-import { Text } from "react-native-elements";
+import { useInsertOrderSubscription } from "@/api/orders/subscriptions";
 
 export default function OrdersScreen() {
   const {
     data: orders,
-    error,
     isLoading,
+    error,
   } = useAdminOrderList({ archived: false });
+
+  useInsertOrderSubscription();
   if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator />;
   }
   if (error) {
-    return <Text>Error Loading Data</Text>;
+    return <Text>Failed to fetch</Text>;
   }
+
   return (
-    <>
-      <FlatList
-        data={orders}
-        contentContainerStyle={{ gap: 10, padding: 10 }}
-        renderItem={({ item }) => <OrderListItem order={item} />}
-      />
-    </>
+    <FlatList
+      data={orders}
+      renderItem={({ item }) => <OrderListItem order={item} />}
+      contentContainerStyle={{ gap: 10, padding: 10 }}
+    />
   );
 }

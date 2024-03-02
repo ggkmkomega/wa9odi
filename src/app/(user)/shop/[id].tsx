@@ -6,12 +6,10 @@ import { useCart } from "@/providers/CartProvider";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  View,
   Text,
   Image,
   StyleSheet,
   ScrollView,
-  ToastAndroid,
   ActivityIndicator,
 } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
@@ -31,7 +29,7 @@ const productDetailSceen = () => {
     if (!product) return;
     const today = dayjs();
     if (!date || !!today.isAfter(date)) {
-      ToastAndroid.show("Invalid Date", 1000);
+      console.warn("Invalid Date", 1000);
       return;
     }
     addItem(product, date);

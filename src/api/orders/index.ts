@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { UseAuth } from "@/providers/AuthProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { InsertTables, Tables, UpadteTables } from "@/types";
+import { InsertTables, UpadteTables } from "@/types";
 
 export const useAdminOrderList = ({ archived = false }) => {
   const statuses = archived
@@ -23,15 +23,15 @@ export const useAdminOrderList = ({ archived = false }) => {
     },
   });
 };
-export const usemyOrderList = () => {
+
+export const useMyOrderList = () => {
   const { session } = UseAuth();
   const id = session?.user.id;
+
   return useQuery({
     queryKey: ["orders", { userId: id }],
     queryFn: async () => {
-      if (!id) {
-        return null;
-      }
+      if (!id) return null;
       const { data, error } = await supabase
         .from("orders")
         .select("*")
@@ -40,10 +40,12 @@ export const usemyOrderList = () => {
       if (error) {
         throw new Error(error.message);
       }
+
       return data;
     },
   });
 };
+
 export const useOrderDetails = (id: number) => {
   return useQuery({
     queryKey: ["order", id],
