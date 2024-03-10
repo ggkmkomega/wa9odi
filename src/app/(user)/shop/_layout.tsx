@@ -21,6 +21,20 @@ export default function shopStack() {
             </Pressable>
           </Link>
         ),
+        headerLeft: () => (
+          <Link href="/profile" asChild>
+            <Pressable>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="user"
+                  size={25}
+                  color={Colors.light.tint}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
+          </Link>
+        ),
       }}
     >
       <Stack.Screen name="index" options={{ title: "shop" }} />

@@ -12,7 +12,7 @@ export type UpadteTables<T extends keyof Database["public"]["Tables"]> =
 
 export type Product = {
   id: number;
-  image: string | null;
+  image: string | null | undefined;
   name: string;
   price: number;
 };
@@ -32,7 +32,10 @@ export const OrderStatusList: OrderStatus[] = [
   "Delivered",
 ];
 
+export const UserStatusList: UserStatus[] = ["Non-Activated", "Activated"];
+
 export type OrderStatus = "New" | "Preparing" | "Delivering" | "Delivered";
+export type UserStatus = "Non-Activated" | "Activated";
 
 export type Order = {
   id: number;

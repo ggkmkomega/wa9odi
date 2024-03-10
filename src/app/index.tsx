@@ -26,7 +26,7 @@ const index = () => {
           <Button text="Admin" />
         </Link>
         <Button
-          text="Sing Out"
+          text="Sign Out"
           onPress={() => {
             supabase.auth.signOut();
           }}

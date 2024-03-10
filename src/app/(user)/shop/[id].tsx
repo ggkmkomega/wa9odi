@@ -11,6 +11,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  ToastAndroid,
 } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import { useProduct } from "@/api/products";
@@ -30,7 +31,7 @@ const productDetailSceen = () => {
     if (!product) return;
     const today = dayjs();
     if (!date || !!today.isAfter(date)) {
-      console.warn("Invalid Date", 1000);
+      ToastAndroid.show("Invalid Date", 1000);
       return;
     }
     addItem(product, date);
