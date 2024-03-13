@@ -14,7 +14,9 @@ const UserListItem = ({ user }: UserListItemProps) => {
     <Link href={`/${segments[0]}/users/${user.id}`} asChild>
       <Pressable style={styles.container}>
         <View>
-          <Text style={styles.title}>{user.full_name}</Text>
+          <Text style={styles.title}>
+            {user.first_name + " " + user.last_name}
+          </Text>
           <Text style={styles.time}>ID: {user.id}</Text>
         </View>
 

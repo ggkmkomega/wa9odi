@@ -15,7 +15,6 @@ import {
 export default function UserDetailsScreen() {
   const { id: idString } = useLocalSearchParams();
   const id = typeof idString === "string" ? idString : idString[0];
-  console.log(id);
 
   const { data: user, error, isLoading } = useUserDetails(id);
   const { mutate: UpdateOrder } = useUpdateUser();
@@ -36,12 +35,16 @@ export default function UserDetailsScreen() {
   }
   return (
     <View style={{ padding: 10, gap: 20 }}>
-      <Stack.Screen options={{ title: `Order #${id}` }} />
+      <Stack.Screen options={{ title: `User #${id}` }} />
       <FlatList
         data={user}
         renderItem={({ item }) => <UserItemListItem User={item} />}
         contentContainerStyle={{ gap: 10 }}
-        ListHeaderComponent={() => <UserListItem user={user} />}
+        ListHeaderComponent={() => (
+          <>
+            <UserItemListItem User={user} />
+          </>
+        )}
         ListFooterComponent={() => (
           <>
             <Text style={{ fontWeight: "bold" }}>Status</Text>

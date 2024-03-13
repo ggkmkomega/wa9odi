@@ -22,7 +22,7 @@ export const useAdminUsersList = ({ activated = false }) => {
 
 export const useUserDetails = (id: string) => {
   return useQuery({
-    queryKey: ["profiles", id],
+    queryKey: ["user", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
@@ -61,6 +61,13 @@ export const useUpdateUser = () => {
     },
     async onSuccess(_, { id }) {
       await queryClient.invalidateQueries({ queryKey: ["user", id] });
+      await queryClient.invalidateQueries({ queryKey: ["users"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["users", { activated: false }],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["users", { activated: true }],
+      });
     },
     onError(error) {
       console.log(error);

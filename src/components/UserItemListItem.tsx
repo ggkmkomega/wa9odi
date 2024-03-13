@@ -11,10 +11,12 @@ const UserItemListItem = ({ User }: UserItemListItemProps) => {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
-        <Text style={styles.title}>{User.full_name}</Text>
+        <Text style={styles.title}>
+          {User.first_name + " " + User.last_name}
+        </Text>
         <View style={styles.subtitleContainer}>
           <Text style={styles.price}>Status : {User.activation}</Text>
-          <Text>{User.username}</Text>
+          <Text>0{User.phone}</Text>
         </View>
       </View>
     </View>
