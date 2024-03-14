@@ -1,6 +1,7 @@
 import { Text, FlatList, ActivityIndicator } from "react-native";
 import { useAdminUsersList } from "@/api/users";
 import UserListItem from "@/components/userListItem";
+import { useInsertUserSubscription } from "@/api/users/subscriptions";
 
 export default function OrdersScreen() {
   const {
@@ -9,7 +10,7 @@ export default function OrdersScreen() {
     error,
   } = useAdminUsersList({ activated: false });
 
-  //useInsertOrderSubscription();
+  useInsertUserSubscription();
   if (isLoading) {
     return <ActivityIndicator />;
   }

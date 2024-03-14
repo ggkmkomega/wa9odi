@@ -62,12 +62,6 @@ export const useUpdateUser = () => {
     async onSuccess(_, { id }) {
       await queryClient.invalidateQueries({ queryKey: ["user", id] });
       await queryClient.invalidateQueries({ queryKey: ["users"] });
-      await queryClient.invalidateQueries({
-        queryKey: ["users", { activated: false }],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: ["users", { activated: true }],
-      });
     },
     onError(error) {
       console.log(error);

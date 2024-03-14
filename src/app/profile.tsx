@@ -1,15 +1,23 @@
 import Button from "@/components/Button";
 import { supabase } from "@/lib/supabase";
+import { Redirect } from "expo-router";
+import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const profileScreen = () => {
+  const [loading, setLoading] = useState(false);
+  const handleSignOut = () => {
+    setLoading(true);
+    supabase.auth.signOut();
+    return <Redirect href={"/"} />;
+  };
   return (
     <View>
       <Text style={styles.title}>Profile</Text>
       <Button
-        text="Sign Out"
+        text={loading ? "Logging off " : "Sign Out"}
         onPress={() => {
-          supabase.auth.signOut();
+          handleSignOut();
         }}
       />
     </View>
