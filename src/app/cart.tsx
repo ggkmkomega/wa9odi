@@ -5,13 +5,14 @@ import { useCart } from "@/providers/CartProvider";
 import CartListItem from "@/components/CartListItem";
 import Button from "@/components/Button";
 import { useRouter } from "expo-router";
+import { useLocation } from "@/providers/LocationProvider";
 
 const CartScreen = () => {
   const { items, total, checkout } = useCart();
-  //location shoudl be in cart context later
+  const { location } = useLocation();
 
-  const [location, setLocatoion] = useState();
   const router = useRouter();
+
   return (
     <View style={{ padding: 10 }}>
       <FlatList

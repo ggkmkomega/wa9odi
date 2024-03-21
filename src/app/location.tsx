@@ -2,10 +2,12 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import * as Location from "expo-location";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { useLocation } from "@/providers/LocationProvider";
 
 const location = () => {
-  const [location, setLocation] = useState<Location.LocationObject>();
+  const { location, updateLocation } = useLocation();
+
   const [address, setAddress] = useState<Location.LocationGeocodedAddress>();
 
   useEffect(() => {
@@ -16,7 +18,7 @@ const location = () => {
         return;
       }
       let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation);
+      updateLocation(currentLocation);
       console.log("Location:");
       console.log(currentLocation);
     };
@@ -27,12 +29,7 @@ const location = () => {
     if (!location) {
       return;
     }
-    const getLocation = async () => {
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation);
-      console.log("Location:");
-      console.log(currentLocation);
-    };
+
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
       longitude: location.coords.longitude,
       latitude: location.coords.latitude,
@@ -52,6 +49,9 @@ const location = () => {
             longitude: 2.912419494241476,
             longitudeDelta: 4.462245292961597,
           }}
+          provider={PROVIDER_GOOGLE}
+          showsUserLocation
+          showsMyLocationButton
           style={styles.map}
         />
       </View>
