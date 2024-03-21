@@ -10,13 +10,17 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function SingnUpWithEmail() {
+  async function signUpWithEmail() {
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
       password,
     });
-    if (error) Alert.alert(error.message);
+
+    if (error) {
+      Alert.alert(error.message);
+      console.log(error);
+    }
     setLoading(false);
   }
 
@@ -36,15 +40,14 @@ const SignUpScreen = () => {
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder=""
         style={styles.input}
         secureTextEntry
       />
 
       <Button
+        onPress={signUpWithEmail}
         disabled={loading}
-        onPress={SingnUpWithEmail}
-        text={loading ? "Creating Account" : "Create account"}
+        text={loading ? "Creating account..." : "Create account"}
       />
       <Link href="/sign-in" style={styles.textButton}>
         Sign in

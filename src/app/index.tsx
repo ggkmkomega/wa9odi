@@ -4,9 +4,10 @@ import Button from "../components/Button";
 import { Link, Redirect } from "expo-router";
 import { UseAuth } from "@/providers/AuthProvider";
 import { supabase } from "@/lib/supabase";
+import SignUpBanner from "@/components/CompleteSignUp";
 
 const index = () => {
-  const { loading, session, profile } = UseAuth();
+  const { loading, session, profile, isAllowed } = UseAuth();
 
   if (loading) {
     return <ActivityIndicator />;
@@ -14,6 +15,9 @@ const index = () => {
 
   if (!session) {
     return <Redirect href="/sign-in" />;
+  }
+  if (!isAllowed) {
+    return <SignUpBanner />;
   }
 
   if (profile?.groupe === "ADMIN") {

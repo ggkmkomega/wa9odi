@@ -44,7 +44,9 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-ui-datepicker": "^2.0.2",
     "react-native-url-polyfill": "^2.0.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-location": "~16.5.5",
+    "react-native-maps": "1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

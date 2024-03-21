@@ -1,34 +1,18 @@
-import Button from "@/components/Button";
-import { supabase } from "@/lib/supabase";
+import "react-native-url-polyfill/auto";
+import { View } from "react-native";
 import { Redirect } from "expo-router";
-import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import Account from "@/components/Acount";
+import { UseAuth } from "@/providers/AuthProvider";
 
-const profileScreen = () => {
-  const [loading, setLoading] = useState(false);
-  const handleSignOut = () => {
-    setLoading(true);
-    supabase.auth.signOut();
-    return <Redirect href={"/"} />;
-  };
+export default function App() {
+  const { session } = UseAuth();
   return (
     <View>
-      <Text style={styles.title}>Profile</Text>
-      <Button
-        text={loading ? "Logging off " : "Sign Out"}
-        onPress={() => {
-          handleSignOut();
-        }}
-      />
+      {session && session.user ? (
+        <Account key={session.user.id} session={session} />
+      ) : (
+        <Redirect href={"/"} />
+      )}
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-});
-export default profileScreen;
+}

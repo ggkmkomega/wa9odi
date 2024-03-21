@@ -13,12 +13,14 @@ type AuthData = {
   loading: boolean;
   profile: any;
   isAdmin: boolean;
+  isAllowed: boolean;
 };
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
   isAdmin: false,
+  isAllowed: false,
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -57,6 +59,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         loading,
         profile,
         isAdmin: profile?.groupe === "ADMIN",
+        isAllowed: !(profile?.phone === null),
       }}
     >
       {children}
