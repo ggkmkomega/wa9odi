@@ -92,8 +92,6 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
       }
       let currentLocation = await Location.getCurrentPositionAsync({});
       setlocation(currentLocation);
-      console.log("Location:");
-      console.log(currentLocation);
     };
     getPermissions();
   }, []);
