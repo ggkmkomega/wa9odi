@@ -13,6 +13,7 @@ import CartProvider from "@/providers/CartProvider";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryProvider";
 import LocationProvider from "@/providers/LocationProvider";
+import NotificationProvider from "@/providers/NotificationProvider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -58,20 +59,34 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <QueryProvider>
-          <CartProvider>
-            <LocationProvider>
-              <Stack>
-                <Stack.Screen name="(admin)" options={{ headerShown: false }} />
-                <Stack.Screen name="(user)" options={{ headerShown: false }} />
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                <Stack.Screen name="cart" options={{ presentation: "modal" }} />
-                <Stack.Screen
-                  name="location"
-                  options={{ presentation: "modal" }}
-                />
-              </Stack>
-            </LocationProvider>
-          </CartProvider>
+          <NotificationProvider>
+            <CartProvider>
+              <LocationProvider>
+                <Stack>
+                  <Stack.Screen
+                    name="(admin)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(user)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="(auth)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="cart"
+                    options={{ presentation: "modal" }}
+                  />
+                  <Stack.Screen
+                    name="location"
+                    options={{ presentation: "modal" }}
+                  />
+                </Stack>
+              </LocationProvider>
+            </CartProvider>
+          </NotificationProvider>
         </QueryProvider>
       </AuthProvider>
     </ThemeProvider>
