@@ -96,22 +96,8 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
       console.log(currentLocation);
     };
     getPermissions();
-    reverseGeocode();
   }, []);
 
-  const reverseGeocode = async () => {
-    if (!location) {
-      return;
-    }
-
-    const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
-      longitude: location.coords.longitude,
-      latitude: location.coords.latitude,
-    });
-    console.log("Reverse Geocoded:");
-    console.log(reverseGeocodedAddress);
-    setaddress(reverseGeocodedAddress[0]);
-  };
   return (
     <LocationContext.Provider
       value={{ address, updateAdress, location, updateLocation }}

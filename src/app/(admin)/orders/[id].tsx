@@ -75,7 +75,7 @@ export default function OrderDetailsScreen() {
                 </Pressable>
               ))}
             </View>
-            <Adminlocation address={order?.address} />
+            <Adminlocation address={order?.address || ""} />
           </>
         )}
       />

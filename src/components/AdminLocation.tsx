@@ -9,15 +9,20 @@ type AdminLocationProps = {
 };
 
 const Adminlocation = ({ address }: AdminLocationProps) => {
-  const location = Location.geocodeAsync(address);
-  console.log(location);
+  useEffect(() => {
+    const location = async () => {
+      let location = await Location.geocodeAsync(address);
+      console.log("location " + location);
+    };
+    location();
+  }, []);
   return (
     <>
       {/*   <View style={styles.mapview}>
         <MapView
           region={region}
           initialRegion={{
-            latitude: 34.3393383640189,
+            latitude: 34.3393383640189,r
             latitudeDelta: 5.989749180739889,
             longitude: 2.912419494241476,
             longitudeDelta: 4.462245292961597,
