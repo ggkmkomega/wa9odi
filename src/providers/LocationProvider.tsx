@@ -1,14 +1,17 @@
-import { CartItem, Tables } from "@/types";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { randomUUID } from "expo-crypto";
-import { useInsertOrder } from "@/api/orders";
-import { useRouter } from "expo-router";
-import { useInserItems } from "@/api/order-items";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import * as Location from "expo-location";
 
 type LocationType = {
   location: Location.LocationObject;
+  address: Location.LocationGeocodedAddress;
   updateLocation: (location: Location.LocationObject) => void;
+  updateAdress: (address: Location.LocationGeocodedAddress) => void;
 };
 const LocationContext = createContext<LocationType>({
   location: {
@@ -25,6 +28,21 @@ const LocationContext = createContext<LocationType>({
     timestamp: 1711020545443,
   },
   updateLocation: () => {},
+  address: {
+    city: null,
+    country: null,
+    district: null,
+    formattedAddress: null,
+    isoCountryCode: null,
+    name: null,
+    postalCode: null,
+    region: null,
+    street: null,
+    streetNumber: null,
+    subregion: null,
+    timezone: null,
+  },
+  updateAdress: () => {},
 });
 
 const LocationProvider = ({ children }: PropsWithChildren) => {
@@ -41,13 +59,63 @@ const LocationProvider = ({ children }: PropsWithChildren) => {
     mocked: false,
     timestamp: 1711020545443,
   });
+  const [address, setaddress] = useState<Location.LocationGeocodedAddress>({
+    city: null,
+    country: null,
+    district: null,
+    formattedAddress: null,
+    isoCountryCode: null,
+    name: null,
+    postalCode: null,
+    region: null,
+    street: null,
+    streetNumber: null,
+    subregion: null,
+    timezone: null,
+  });
 
   //update lcoation
   const updateLocation = (newLocation: Location.LocationObject) => {
     setlocation(newLocation);
   };
+
+  //update adress
+  const updateAdress = (address: Location.LocationGeocodedAddress) => {
+    setaddress(address);
+  };
+  useEffect(() => {
+    const getPermissions = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Please grant location permissions");
+        return;
+      }
+      let currentLocation = await Location.getCurrentPositionAsync({});
+      setlocation(currentLocation);
+      console.log("Location:");
+      console.log(currentLocation);
+    };
+    getPermissions();
+    reverseGeocode();
+  }, []);
+
+  const reverseGeocode = async () => {
+    if (!location) {
+      return;
+    }
+
+    const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+    });
+    console.log("Reverse Geocoded:");
+    console.log(reverseGeocodedAddress);
+    setaddress(reverseGeocodedAddress[0]);
+  };
   return (
-    <LocationContext.Provider value={{ location, updateLocation }}>
+    <LocationContext.Provider
+      value={{ address, updateAdress, location, updateLocation }}
+    >
       {children}
     </LocationContext.Provider>
   );

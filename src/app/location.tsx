@@ -6,9 +6,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useLocation } from "@/providers/LocationProvider";
 
 const location = () => {
-  const { location, updateLocation } = useLocation();
-
-  const [address, setAddress] = useState<Location.LocationGeocodedAddress>();
+  const { location, updateLocation, address, updateAdress } = useLocation();
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -23,6 +21,7 @@ const location = () => {
       console.log(currentLocation);
     };
     getPermissions();
+    reverseGeocode();
   }, []);
 
   const reverseGeocode = async () => {
@@ -36,7 +35,7 @@ const location = () => {
     });
     console.log("Reverse Geocoded:");
     console.log(reverseGeocodedAddress);
-    setAddress(reverseGeocodedAddress[0]);
+    updateAdress(reverseGeocodedAddress[0]);
   };
 
   return (

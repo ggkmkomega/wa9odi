@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { UseAuth } from "@/providers/AuthProvider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { InsertTables, UpadteTables } from "@/types";
+import { useLocation } from "@/providers/LocationProvider";
 
 export const useAdminOrderList = ({ archived = false }) => {
   const statuses = archived
@@ -66,12 +67,11 @@ export const useInsertOrder = () => {
   const queryClient = useQueryClient();
   const { session } = UseAuth();
   const user_id = session?.user.id;
-
   return useMutation({
-    async mutationFn(data: InsertTables<"orders">) {
+    async mutationFn({ address, total }: { address: string; total: number }) {
       const { error, data: newOrder } = await supabase
         .from("orders")
-        .insert({ ...data, user_id })
+        .insert({ user_id, address, total })
         .select()
         .single();
 

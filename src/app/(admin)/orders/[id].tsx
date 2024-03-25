@@ -1,4 +1,5 @@
 import { useOrderDetails, useUpdateOrder } from "@/api/orders";
+import Adminlocation from "@/components/AdminLocation";
 import OrderItemListItem from "@/components/OrderItemListItem";
 import OrderListItem from "@/components/OrderListItem";
 import Colors from "@/constants/Colors";
@@ -74,6 +75,7 @@ export default function OrderDetailsScreen() {
                 </Pressable>
               ))}
             </View>
+            <Adminlocation address={order?.address} />
           </>
         )}
       />

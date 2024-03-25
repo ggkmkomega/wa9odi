@@ -9,7 +9,8 @@ import { useLocation } from "@/providers/LocationProvider";
 
 const CartScreen = () => {
   const { items, total, checkout } = useCart();
-  const { location } = useLocation();
+  const { address } = useLocation();
+  const actaddres = address.formattedAddress ?? "";
 
   const router = useRouter();
 
@@ -38,13 +39,24 @@ const CartScreen = () => {
             alignItems: "center",
           }}
         >
-          {location ? `Location :${location} ` : "Please enter your location"}
+          {address.isoCountryCode != null
+            ? `Location :${address.formattedAddress} `
+            : "Please enter your location"}
         </Text>
       </Pressable>
       <Text style={{ fontSize: 20, fontWeight: "500" }}>
         Total : DZD {total}
       </Text>
-      <Button text="Checkout" onPress={checkout} />
+      {address.isoCountryCode === "DZ" ? (
+        <Button
+          text="Checkout"
+          onPress={() => {
+            checkout(actaddres);
+          }}
+        />
+      ) : (
+        <Text>Invalid Country</Text>
+      )}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
   );

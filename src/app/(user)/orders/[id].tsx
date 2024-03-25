@@ -1,11 +1,14 @@
 import { useOrderDetails } from "@/api/orders";
 import { useUpdateOrderSubscription } from "@/api/orders/subscriptions";
+import Location from "@/components/Location";
 import OrderItemListItem from "@/components/OrderItemListItem";
 import OrderListItem from "@/components/OrderListItem";
+import { useLocation } from "@/providers/LocationProvider";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export default function OrderDetailsScreen() {
+  const { address } = useLocation();
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
   const { data: order, error, isLoading } = useOrderDetails(id);
@@ -28,6 +31,9 @@ export default function OrderDetailsScreen() {
         renderItem={({ item }) => <OrderItemListItem item={item} />}
         contentContainerStyle={{ gap: 10 }}
         ListHeaderComponent={() => <OrderListItem order={order} />}
+        ListFooterComponent={() => (
+          <Location address={address.formattedAddress} />
+        )}
       />
     </View>
   );
