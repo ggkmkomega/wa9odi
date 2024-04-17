@@ -32,7 +32,6 @@ const NotificationProvider = ({ children }: PropsWithChildren) => {
         expo_push_notification: expoPushToken,
       })
       .eq("id", user?.id);
-    console.log("not", expoPushToken);
   };
 
   useEffect(() => {

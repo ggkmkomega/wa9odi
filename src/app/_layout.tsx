@@ -59,34 +59,20 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <QueryProvider>
-          <NotificationProvider>
-            <CartProvider>
-              <LocationProvider>
-                <Stack>
-                  <Stack.Screen
-                    name="(admin)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="(user)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="(auth)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="cart"
-                    options={{ presentation: "modal" }}
-                  />
-                  <Stack.Screen
-                    name="location"
-                    options={{ presentation: "modal" }}
-                  />
-                </Stack>
-              </LocationProvider>
-            </CartProvider>
-          </NotificationProvider>
+          <CartProvider>
+            <LocationProvider>
+              <Stack>
+                <Stack.Screen name="(admin)" options={{ headerShown: false }} />
+                <Stack.Screen name="(user)" options={{ headerShown: false }} />
+                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                <Stack.Screen name="cart" options={{ presentation: "modal" }} />
+                <Stack.Screen
+                  name="location"
+                  options={{ presentation: "modal" }}
+                />
+              </Stack>
+            </LocationProvider>
+          </CartProvider>
         </QueryProvider>
       </AuthProvider>
     </ThemeProvider>

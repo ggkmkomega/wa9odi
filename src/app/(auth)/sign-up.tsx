@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import Colors from "../../constants/Colors";
 import { Link, Stack } from "expo-router";
 import { supabase } from "@/lib/supabase";
+import { Image } from "react-native";
 
 const SignUpScreen = () => {
   const [email, setEmail] = useState("");
@@ -27,31 +28,44 @@ const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: "Sign up" }} />
+      <View style={styles.logoContainer}>
+        <Image
+          style={{ width: 100, height: 100, resizeMode: "contain" }}
+          source={require("../../../assets/images/logo.png")}
+        />
+        <View>
+          <Text style={{ fontSize: 40, fontWeight: "bold" }}>Wakoudi</Text>
+          <Text style={{ color: Colors.light.grey, fontWeight: "400" }}>
+            The First Fuel delivery App in Algeria
+          </Text>
+        </View>
+      </View>
+      <View>
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="jon@gmail.com"
+          style={styles.input}
+        />
 
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="jon@gmail.com"
-        style={styles.input}
-      />
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          style={styles.input}
+          secureTextEntry
+        />
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        secureTextEntry
-      />
-
-      <Button
-        onPress={signUpWithEmail}
-        disabled={loading}
-        text={loading ? "Creating account..." : "Create account"}
-      />
-      <Link href="/sign-in" style={styles.textButton}>
-        Sign in
-      </Link>
+        <Button
+          onPress={signUpWithEmail}
+          disabled={loading}
+          text={loading ? "Creating account..." : "Create account"}
+        />
+        <Link href="/sign-in" style={styles.textButton}>
+          Sign in
+        </Link>
+      </View>
     </View>
   );
 };
@@ -61,6 +75,7 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     flex: 1,
+    gap: 40,
   },
   label: {
     color: "gray",
@@ -79,6 +94,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors.light.tint,
     marginVertical: 10,
+  },
+  logoContainer: {
+    padding: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
