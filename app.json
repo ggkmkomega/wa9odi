@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "wakodi",
+    "name": "wakoudi",
     "slug": "wa9odi",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -26,7 +26,7 @@
           "apiKey": "AIzaSyDJ8u7_9FzgtIqyRdiIY86lXm5Q-JRsESI"
         }
       },
-      "package": "com.douibet_ilyes.wa9odi"
+      "package": "com.douibet_ilyes.wakoudi"
     },
     "web": {
       "bundler": "metro",

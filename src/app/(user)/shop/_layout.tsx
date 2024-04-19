@@ -1,10 +1,17 @@
 import Colors from "@/constants/Colors";
 import { supabase } from "@/lib/supabase";
+import { UseAuth } from "@/providers/AuthProvider";
 import { FontAwesome } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
+import { Link, Redirect, Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
 
 export default function shopStack() {
+  const router = useRouter();
+  const { session } = UseAuth();
+
+  if (!session) {
+    router.replace("/");
+  }
   return (
     <Stack
       screenOptions={{
@@ -25,7 +32,7 @@ export default function shopStack() {
         headerLeft: () => (
           <>
             <Link href="/sign-in" asChild>
-              <Pressable>
+              <Pressable onPress={async () => await supabase.auth.signOut()}>
                 {({ pressed }) => (
                   <FontAwesome
                     name="arrow-left"
@@ -37,14 +44,13 @@ export default function shopStack() {
               </Pressable>
             </Link>
             <Link href="/profile" asChild>
-              <Pressable>
+              <Pressable onPress={() => router.push("/profile")}>
                 {({ pressed }) => (
                   <FontAwesome
                     name="user"
                     size={25}
                     color={Colors.light.tint}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                    onPress={() => supabase.auth.signOut()}
                   />
                 )}
               </Pressable>
