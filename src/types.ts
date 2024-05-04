@@ -57,6 +57,14 @@ export type OrderItem = {
 };
 
 export type Profile = {
+  activation: string;
+  avatar_url: string | null;
+  first_name: string | null;
+  groupe: string;
   id: string;
-  group: string;
-};
+  last_name: string | null;
+  phone: number | null;
+  updated_at: string | null;
+  username: string | null;
+  website: string | null;
+} | null;

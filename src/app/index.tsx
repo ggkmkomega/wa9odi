@@ -1,26 +1,26 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import React from "react";
 import Button from "../components/Button";
 import { Link, Redirect } from "expo-router";
-import { UseAuth } from "@/providers/AuthProvider";
+
 import { supabase } from "@/lib/supabase";
-import SignUpBanner from "@/components/CompleteSignUp";
+import { UseAuth } from "@/providers/AuthProvider";
 
 const index = () => {
-  const { loading, session, profile, isAllowed } = UseAuth();
+  const { loading, session, isAdmin, error } = UseAuth();
 
   if (loading) {
     return <ActivityIndicator />;
+  }
+  if (error) {
+    return <text>{JSON.stringify(error)}</text>;
   }
 
   if (!session) {
     return <Redirect href="/sign-in" />;
   }
-  if (!isAllowed) {
-    return <SignUpBanner />;
-  }
 
-  if (profile?.groupe === "ADMIN") {
+  if (isAdmin) {
     return (
       <View style={{ flex: 1, justifyContent: "center", padding: 10 }}>
         <Link href={"/(user)"} asChild>
