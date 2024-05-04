@@ -31,7 +31,7 @@ const SignUpScreen = () => {
       <View style={styles.logoContainer}>
         <Image
           style={{ width: 100, height: 100, resizeMode: "contain" }}
-          source={require("../../../assets/images/logo.png")}
+          source={require("../../../assets/logo.png")}
         />
         <View>
           <Text style={{ fontSize: 40, fontWeight: "bold" }}>Wakoudi</Text>

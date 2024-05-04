@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
-import { Session } from "@supabase/supabase-js";
+import { Profile } from "@/types";
+import { AuthError, Session } from "@supabase/supabase-js";
 import {
   PropsWithChildren,
   createContext,
@@ -13,20 +14,21 @@ type AuthData = {
   loading: boolean;
   profile: any;
   isAdmin: boolean;
-  isAllowed: boolean;
+  error: AuthError | null;
 };
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
   isAdmin: false,
-  isAllowed: false,
+  error: null,
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<AuthError | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -34,6 +36,9 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         data: { session },
         error,
       } = await supabase.auth.getSession();
+      if (error) {
+        setError(error);
+      }
       setSession(session);
       if (session) {
         // fetch profile
@@ -59,7 +64,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         loading,
         profile,
         isAdmin: profile?.groupe === "ADMIN",
-        isAllowed: !(profile?.phone === null),
+        error,
       }}
     >
       {children}
