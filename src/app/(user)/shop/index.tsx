@@ -11,6 +11,8 @@ export default function MenuScreen() {
   if (error) {
     return <Text>Error Loading Data</Text>;
   }
+
+    
   return (
     <FlatList
       numColumns={2}

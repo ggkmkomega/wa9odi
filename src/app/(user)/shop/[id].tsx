@@ -7,16 +7,13 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Text,
-  Image,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
   ToastAndroid,
+  View,
 } from "react-native";
 import { DateType } from "react-native-ui-datepicker";
 import { useProduct } from "@/api/products";
-import { defaultProductImage } from "@/components/ListItems";
-import RemoteImage from "@/components/RemoteImage";
 
 const productDetailSceen = () => {
   const [date, setDate] = useState<DateType>();
@@ -45,19 +42,18 @@ const productDetailSceen = () => {
     return <Text>Failed to fetch product</Text>;
   }
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
-      <RemoteImage
+      {/* <RemoteImage
         style={styles.image}
         path={product.image}
         fallback={defaultProductImage}
-      />
-
+      /> */}
       <Text style={styles.subtitle}>Select Date and Time:</Text>
       <DatePicker date={date} setDate={setDate} />
       <Text style={styles.price}>Price : DZD {product.price.toFixed(2)}</Text>
       <Button onPress={addToCart} text="Add to cart" />
-    </ScrollView>
+    </View>
   );
 };
 
@@ -78,7 +74,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    marginBottom: 10,
+    marginVertical: 10,
   },
   selectionContainer: {
     flex: 1,

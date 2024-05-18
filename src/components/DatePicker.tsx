@@ -27,7 +27,7 @@ export default function DatePicker({ date, setDate }: Props) {
   const locale = "en";
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.body}>
         <View
           style={{
@@ -107,7 +107,7 @@ export default function DatePicker({ date, setDate }: Props) {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

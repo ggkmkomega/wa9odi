@@ -23,10 +23,10 @@ const index = () => {
   if (isAdmin) {
     return (
       <View style={{ flex: 1, justifyContent: "center", padding: 10 }}>
-        <Link href={"/(user)"} asChild>
+        <Link href={"/(user)/shop"} asChild>
           <Button text="User" />
         </Link>
-        <Link href={"/(admin)"} asChild>
+        <Link href={"/(admin)/shop"} asChild>
           <Button text="Admin" />
         </Link>
         <Button
