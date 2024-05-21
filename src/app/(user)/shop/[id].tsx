@@ -1,10 +1,11 @@
 import Button from "@/components/Button";
 import dayjs from "dayjs";
-import DatePicker from "@/components/DatePicker";
+import ModalDatePicker from "@/components/DatePicker";
 import Colors from "@/constants/Colors";
 import { useCart } from "@/providers/CartProvider";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
+import Moment from "moment";
 import {
   Text,
   StyleSheet,
@@ -12,11 +13,14 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
-import { DateType } from "react-native-ui-datepicker";
 import { useProduct } from "@/api/products";
+import RemoteImage from "@/components/RemoteImage";
+import { defaultProductImage } from "@/components/ListItems";
 
 const productDetailSceen = () => {
-  const [date, setDate] = useState<DateType>();
+  const now = new Date();
+  const [date, setDate] = useState<Date>(now);
+  const [open, setOpen] = useState(false);
   const { id: idString } = useLocalSearchParams();
   const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
   const { data: product, error, isLoading } = useProduct(id);
@@ -26,8 +30,7 @@ const productDetailSceen = () => {
 
   const addToCart = () => {
     if (!product) return;
-    const today = dayjs();
-    if (!date || !!today.isAfter(date)) {
+    if (!date) {
       ToastAndroid.show("Invalid Date", 1000);
       return;
     }
@@ -44,56 +47,50 @@ const productDetailSceen = () => {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
-      {/* <RemoteImage
-        style={styles.image}
-        path={product.image}
-        fallback={defaultProductImage}
-      /> */}
-      <Text style={styles.subtitle}>Select Date and Time:</Text>
-      <DatePicker date={date} setDate={setDate} />
-      <Text style={styles.price}>Price : DZD {product.price.toFixed(2)}</Text>
-      <Button onPress={addToCart} text="Add to cart" />
+      <View>
+        <RemoteImage
+          style={styles.image}
+          path={product.image}
+          fallback={defaultProductImage}
+        />
+        <ModalDatePicker
+          open={open}
+          setOpen={setOpen}
+          date={date}
+          setDate={setDate}
+        />
+        <Text style={styles.sizeText}>
+          Selected : {Moment(date).format("D MMM YYYY, hh:mm a")}
+        </Text>
+        <Text style={styles.price}>Price : DZD {product.price.toFixed(2)}</Text>
+        <Button style={styles.btn} onPress={addToCart} text="Add to cart" />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.light.background,
+    backgroundColor: "white",
     flex: 1,
     padding: 10,
   },
   image: {
     width: "100%",
-    aspectRatio: 3 / 4,
+    aspectRatio: 1,
+    paddingVertical: 10,
   },
   price: {
     fontSize: 18,
     fontWeight: "bold",
     marginTop: "auto",
   },
-  subtitle: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-  selectionContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  button: {
-    width: 30,
-    height: 30,
-    backgroundColor: "lightgray",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
-  },
-  litres: {
+  sizeText: {
     fontSize: 20,
-    marginHorizontal: 10,
+    fontWeight: "500",
+  },
+  btn: {
+    marginVertical: 20,
   },
 });
 export default productDetailSceen;
