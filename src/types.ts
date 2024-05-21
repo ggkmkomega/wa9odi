@@ -1,4 +1,3 @@
-import { type DateType } from "react-native-ui-datepicker";
 import { Database } from "./database.types";
 
 export type Tables<T extends keyof Database["public"]["Tables"]> =
@@ -22,7 +21,7 @@ export type CartItem = {
   product: Product;
   product_id: number;
   quantity: number;
-  date: DateType;
+  date: Date;
 };
 
 export const OrderStatusList: OrderStatus[] = [
@@ -52,7 +51,7 @@ export type OrderItem = {
   product_id: number;
   products: Product;
   order_id: number;
-  date: DateType;
+  date: Date;
   quantity: number;
 };
 

@@ -3,7 +3,6 @@ import Adminlocation from "@/components/AdminLocation";
 import OrderItemListItem from "@/components/OrderItemListItem";
 import OrderListItem from "@/components/OrderListItem";
 import Colors from "@/constants/Colors";
-import { notifyUserAboutOrderUpdate } from "@/lib/notifications";
 import { OrderStatusList } from "@/types";
 import { Stack, useLocalSearchParams } from "expo-router";
 import {
@@ -25,10 +24,6 @@ export default function OrderDetailsScreen() {
       id,
       updatedFields: { status },
     });
-    console.log("notify", order?.user_id);
-    if (order) {
-      await notifyUserAboutOrderUpdate({ ...order, status });
-    }
   };
   if (isLoading) {
     return <ActivityIndicator />;
