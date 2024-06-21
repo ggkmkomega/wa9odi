@@ -12,6 +12,8 @@ import {
   ActivityIndicator,
   ToastAndroid,
   View,
+  SafeAreaView,
+
 } from "react-native";
 import { useProduct } from "@/api/products";
 import RemoteImage from "@/components/RemoteImage";
@@ -45,7 +47,7 @@ const productDetailSceen = () => {
     return <Text>Failed to fetch product</Text>;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ title: product.name }} />
       <View>
         <RemoteImage
@@ -65,7 +67,7 @@ const productDetailSceen = () => {
         <Text style={styles.price}>Price : DZD {product.price.toFixed(2)}</Text>
         <Button style={styles.btn} onPress={addToCart} text="Add to cart" />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
