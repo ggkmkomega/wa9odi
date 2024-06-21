@@ -2,12 +2,15 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import * as Location from "expo-location";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useLocation } from "@/providers/LocationProvider";
 
 const location = () => {
   const { location, updateLocation, address, updateAdress } = useLocation();
-
+  const [draggableMarkerCoord, setDraggableMarkerCoord] = useState({
+    longitude: 0,
+    latitude: 0,
+  });
   useEffect(() => {
     const getPermissions = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -21,14 +24,40 @@ const location = () => {
       console.log(currentLocation);
     };
     getPermissions();
-    reverseGeocode();
+    reverseGeocode({ location });
+    setDraggableMarkerCoord({
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+    });
   }, []);
+  const transformLocation = (location: {
+    longitude: number;
+    latitude: number;
+  }) => {
+    const coords: Location.LocationObjectCoords = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      altitude: null, // or some default value
+      accuracy: null, // or some default value
+      altitudeAccuracy: null, // or some default value
+      heading: null, // or some default value
+      speed: null, // or some default value
+    };
 
-  const reverseGeocode = async () => {
+    return {
+      coords,
+      timestamp: Date.now(), // or some other timestamp source
+      mocked: false, // or some other default value
+    };
+  };
+  const reverseGeocode = async ({
+    location,
+  }: {
+    location: Location.LocationObject;
+  }) => {
     if (!location) {
       return;
     }
-
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
       longitude: location.coords.longitude,
       latitude: location.coords.latitude,
@@ -52,8 +81,22 @@ const location = () => {
           showsUserLocation
           showsMyLocationButton
           style={styles.map}
-        />
+        >
+          <Marker
+            draggable
+            pinColor="#0000ff"
+            coordinate={draggableMarkerCoord}
+            onDragEnd={(e) => {
+              console.log("waht i get", e.nativeEvent.coordinate);
+              const newLoc: Location.LocationObject = transformLocation(
+                e.nativeEvent.coordinate
+              );
+              reverseGeocode({ location: newLoc });
+            }}
+          />
+        </MapView>
       </View>
+
       <View style={styles.containter}>
         <Text style={styles.Text}>
           {location
@@ -63,7 +106,7 @@ const location = () => {
         <Button
           text="Set Location"
           onPress={() => {
-            reverseGeocode();
+            reverseGeocode({ location });
           }}
         />
       </View>

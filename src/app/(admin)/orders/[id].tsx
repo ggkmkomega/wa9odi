@@ -19,12 +19,10 @@ export default function OrderDetailsScreen() {
 
   const { data: order, error, isLoading } = useOrderDetails(id);
   const { mutate: UpdateOrder } = useUpdateOrder();
-  const updateStatus = (status) => {
+  const updateStatus = async (status: string) => {
     UpdateOrder({
       id,
-      updatedFields: {
-        status,
-      },
+      updatedFields: { status },
     });
   };
   if (isLoading) {
@@ -75,10 +73,10 @@ export default function OrderDetailsScreen() {
                 </Pressable>
               ))}
             </View>
-            <Adminlocation address={order?.address} />
           </>
         )}
       />
+      <Adminlocation address={order?.address || ""} />
     </View>
   );
 }

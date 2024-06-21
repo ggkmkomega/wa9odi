@@ -1,10 +1,7 @@
 import {
-  View,
   Text,
   Pressable,
-  Image,
   StyleSheet,
-  TextInput,
 } from "react-native";
 import React from "react";
 import { Tables } from "@/types";
@@ -19,6 +16,7 @@ type ListItemsProps = {
 };
 const ListItems = ({ product }: ListItemsProps) => {
   const segments = useSegments();
+
   return (
     <Link href={`/${segments[0]}/shop/${product.id}`} asChild>
       <Pressable style={styles.container}>

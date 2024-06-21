@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "wa9odi",
+    "name": "wakoudi",
     "slug": "wa9odi",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -32,11 +32,13 @@
       ],
       "package": "com.douibet_ilyes.wa9odi"
     },
+    
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+    
     "plugins": [
       "expo-router",
       [

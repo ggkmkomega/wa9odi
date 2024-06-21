@@ -1,5 +1,5 @@
 import Colors from "@/constants/Colors";
-import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
 import {
   Text,
   Image,
